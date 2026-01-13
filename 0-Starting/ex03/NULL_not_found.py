@@ -1,10 +1,8 @@
-import math
-
 def NULL_not_found(object: any) -> int:
 
     if object is None:
         type_name = "Nothing"
-    elif isinstance(object, float) and math.isnan(object):
+    elif isinstance(object, float) and object != object:
         type_name = "Cheese"
     elif isinstance(object, bool):
         type_name = "Fake"
@@ -15,5 +13,8 @@ def NULL_not_found(object: any) -> int:
     else:
         print("Type not Found")
         return 1
-    print(f"{type_name}: {object} {type(object)}")
+    if type_name == "Empty":
+        print(f"{type_name}: {type(object)}")
+    else:
+        print(f"{type_name}: {object} {type(object)}")
     return 0
