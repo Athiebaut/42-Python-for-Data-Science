@@ -1,7 +1,6 @@
 import time
 from datetime import datetime
 
-
 seconds = time.time()
 seconds_format = f'{seconds:,}'
 scientific_notation="{:.2e}".format(seconds)
