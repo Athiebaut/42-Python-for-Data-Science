@@ -1,14 +1,8 @@
-
 def ft_filter(function, iterable):
-    """
-    Apply a function to filter elements from an iterable.
+    """filter(function or None, iterable) --> filter object
 
-    Args:
-        function (callable): A function that takes one argument and returns True
-                             if the element should be kept.
-        iterable (iterable): An iterable containing elements to filter.
-
-    Returns:
-        list: A list containing elements for which function(item) is True.
-    """
-    return [item for item in iterable if function(item)]
+Return an iterator yielding those items of iterable for which function(item)
+is true. If function is None, return the items that are true."""
+    if function is None:
+        return iter([item for item in iterable if item])
+    return iter([item for item in iterable if function(item)])

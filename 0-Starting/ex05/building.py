@@ -1,5 +1,6 @@
 import sys
 
+
 def count_chars(txt: str) -> list:
     """
     Count different types of characters in a string.
@@ -7,8 +8,8 @@ def count_chars(txt: str) -> list:
     The function counts:
     - uppercase letters
     - lowercase letters
-    - punctuation marks (, . ! ?)
-    - spaces and newline characters
+    - punctuation marks
+    - spaces characters
     - digits
 
     Args:
@@ -24,13 +25,13 @@ def count_chars(txt: str) -> list:
             array[0] += 1
         elif kitten.islower():
             array[1] += 1
-        elif kitten == ',' or kitten == '.' or kitten == '!' or kitten == '?':
+        elif not kitten.isalnum() and not kitten.isspace():
             array[2] += 1
-        elif kitten == ' ' or kitten == '\n':
+        elif kitten.isspace():
             array[3] += 1
         elif kitten.isdigit():
             array[4] += 1
-    array[5] = array[0] + array[1] + array[2] + array[3] + array[4]
+    array[5] = len(txt)
     return array
 
 
@@ -54,7 +55,7 @@ def main():
         print(f"The text contains {infos[5]} characters:")
         print(f"{infos[0]} upper letters")
         print(f"{infos[1]} lower letters")
-        print(f"{infos[2]} ponctuation marks")
+        print(f"{infos[2]} punctuation marks")
         print(f"{infos[3]} spaces")
         print(f"{infos[4]} digits")
 
@@ -65,4 +66,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

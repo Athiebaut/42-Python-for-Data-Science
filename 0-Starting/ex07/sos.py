@@ -1,46 +1,59 @@
 import sys
 
 
-def ft_translate(txt: str) -> dict:
+NESTED_MORSE = {
+    " ": "/",
+    "A": ".-",
+    "B": "-...",
+    "C": "-.-.",
+    "D": "-..",
+    "E": ".",
+    "F": "..-.",
+    "G": "--.",
+    "H": "....",
+    "I": "..",
+    "J": ".---",
+    "K": "-.-",
+    "L": ".-..",
+    "M": "--",
+    "N": "-.",
+    "O": "---",
+    "P": ".--.",
+    "Q": "--.-",
+    "R": ".-.",
+    "S": "...",
+    "T": "-",
+    "U": "..-",
+    "V": "...-",
+    "W": ".--",
+    "X": "-..-",
+    "Y": "-.--",
+    "Z": "--..",
+    "0": "-----",
+    "1": ".----",
+    "2": "..---",
+    "3": "...--",
+    "4": "....-",
+    "5": ".....",
+    "6": "-....",
+    "7": "--...",
+    "8": "---..",
+    "9": "----.",
+}
+
+
+def ft_translate(txt: str) -> str:
     """
     Translate a text string into Morse code.
 
-    Each character of the input string is converted into its corresponding
-    Morse code representation. Characters are separated by spaces.
-
-    Args:
-        txt (str): The text to translate (expected to be uppercase).
-
-    Returns:
-        str: A string containing the Morse code translation.
-
-    Raises:
-        AssertionError: If the text contains a character not supported
-                        by the Morse dictionary.
+    The program supports space and alphanumeric characters only.
     """
-    result = ""
-    myDict = {
-        'A': '.-', 'B': '-...',
-        'C': '-.-.', 'D': '-..', 'E': '.',
-        'F': '..-.', 'G': '--.', 'H': '....',
-        'I': '..', 'J': '.---', 'K': '-.-',
-        'L': '.-..', 'M': '--', 'N': '-.',
-        'O': '---', 'P': '.--.', 'Q': '--.-',
-        'R': '.-.', 'S': '...', 'T': '-',
-        'U': '..-', 'V': '...-', 'W': '.--',
-        'X': '-..-', 'Y': '-.--', 'Z': '--..',
-        '1': '.----', '2': '..---', '3': '...--',
-        '4': '....-', '5': '.....', '6': '-....',
-        '7': '--...', '8': '---..', '9': '----.',
-        '0': '-----', ', ': '--..--', '.': '.-.-.-',
-        '?': '..--..', '/': '-..-.', '-': '-....-'
-    }
-    for kitten in txt:
-        if kitten in myDict:
-            result += myDict[kitten] + ' '
-        else:
-            raise AssertionError("bad character")
-    return result.strip()
+    morse = []
+    for char in txt.upper():
+        if char not in NESTED_MORSE:
+            raise AssertionError("the arguments are bad")
+        morse.append(NESTED_MORSE[char])
+    return " ".join(morse)
 
 
 def main():
@@ -52,14 +65,8 @@ def main():
     """
     try:
         if len(sys.argv) != 2:
-            raise AssertionError("bad arguments")
-        if not isinstance(sys.argv[1], str):
-            raise AssertionError("this is not a string")
-
-        txt = sys.argv[1]
-        result = ft_translate(txt.upper())
-        print(f"{result}")
-
+            raise AssertionError("the arguments are bad")
+        print(ft_translate(sys.argv[1]))
     except AssertionError as e:
         print(f"AssertionError: {e}")
         return

@@ -12,4 +12,4 @@ pip install -i <Link>
 
 pip list
 
-pip show -v ft_package_42
+pip show -v ft_package

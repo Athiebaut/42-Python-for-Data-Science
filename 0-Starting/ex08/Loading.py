@@ -1,7 +1,7 @@
-import sys
 import os
 
-def ft_tqdm(lst: range):
+
+def ft_tqdm(lst: range) -> None:
     """
     Display a progress bar while iterating over a range.
 
@@ -15,15 +15,27 @@ def ft_tqdm(lst: range):
         int: The current element from the range.
     """
     total = len(lst)
-    term_width = os.get_terminal_size().columns
-    bar_width = max(10, term_width - 40)
+    if total == 0:
+        return
+    try:
+        term_width = os.get_terminal_size().columns
+    except OSError:
+        term_width = 80
+    total_str = str(total)
+    bar_width = max(10, term_width - len(f"100%|[]| {total_str}/{total_str}"))
 
     for i, item in enumerate(lst):
-        progress = (i + 1) / total
+        current = i + 1
+        progress = current / total
         filled = int(bar_width * progress)
-        bar = '█' * filled + '░' * (bar_width - filled)
-        sys.stdout.write(f'\r{int(progress * 100):3d}%|{bar}| {i + 1}/{total}')
-        sys.stdout.flush()
+        if filled >= bar_width:
+            bar = "=" * (bar_width - 1) + ">"
+        else:
+            bar = "=" * filled + ">" + " " * (bar_width - filled - 1)
+        print(
+            f"\r{int(progress * 100):3d}%|[{bar}]| {current}/{total}",
+            end="",
+            flush=True,
+        )
         yield item
-    sys.stdout.write('\n')
-
+    print()

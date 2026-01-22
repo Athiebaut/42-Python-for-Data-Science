@@ -14,13 +14,19 @@ def main():
     is strictly greater than the given integer.
     """
     try:
-        if len(sys.argv) == 3:
-            txt = sys.argv[1]
-            nbr = int(sys.argv[2])
-            result = ft_filter(lambda x: len(x) > nbr, txt.split())
-            print(f"{result}")
-        else:
+        if len(sys.argv) != 3:
             raise AssertionError("the arguments are bad")
+
+        txt = sys.argv[1]
+        nbr = int(sys.argv[2])
+
+        def predicate(word: str) -> bool:
+            return len(word) > nbr
+
+        result = [word for word in ft_filter(predicate, txt.split())]
+        print(result)
+    except ValueError:
+        print("AssertionError: the arguments are bad")
     except AssertionError as e:
         print(f"AssertionError: {e}")
         return
