@@ -149,12 +149,13 @@ def main() -> None:
     """
     try:
         img_path = os.path.join(os.path.dirname(__file__), "animal.jpeg")
+        #print(f" img path : {img_path}")
         img = ft_load(img_path)
         if img is None:
             return
 
         print(img)
-        zoomed = zoom_img(img, 400)
+        zoomed = zoom_image(img, 420)
         print(f"New shape after slicing: {zoomed.shape}")
         print(zoomed)
         display_with_scale(zoomed)
