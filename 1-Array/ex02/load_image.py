@@ -1,8 +1,17 @@
+import os
+
 import cv2
-import array
+import numpy as np
 
 
-def ft_load(path: str) -> array:
+def resolve_image_path(path: str) -> str:
+    """Resolve an image path from the exercise directory when needed."""
+    if os.path.isabs(path) or os.path.isfile(path):
+        return path
+    return os.path.join(os.path.dirname(__file__), path)
+
+
+def ft_load(path: str) -> np.ndarray | None:
     """
     Load an image from disk and return its pixels in RGB format.
 
@@ -12,7 +21,11 @@ def ft_load(path: str) -> array:
         if not isinstance(path, str):
             raise TypeError("path must be a string")
 
-        image = cv2.imread(path)
+        real_path = resolve_image_path(path)
+        if not os.path.isfile(real_path):
+            raise ValueError(f"unable to load image: {path}")
+
+        image = cv2.imread(real_path)
         if image is None:
             raise ValueError(f"unable to load image: {path}")
 

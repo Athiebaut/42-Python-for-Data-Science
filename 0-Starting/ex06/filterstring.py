@@ -19,17 +19,13 @@ def main():
 
         txt = sys.argv[1]
         nbr = int(sys.argv[2])
-
-        def predicate(word: str) -> bool:
-            return len(word) > nbr
-
-        result = [word for word in ft_filter(predicate, txt.split())]
+        result = [word for word in ft_filter(
+            lambda word: len(word) > nbr,
+            txt.split(),
+        )]
         print(result)
-    except ValueError:
+    except (AssertionError, ValueError):
         print("AssertionError: the arguments are bad")
-    except AssertionError as e:
-        print(f"AssertionError: {e}")
-        return
 
 
 if __name__ == "__main__":

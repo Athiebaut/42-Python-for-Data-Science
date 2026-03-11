@@ -19,11 +19,11 @@ def zoom_image(img: np.ndarray, size: int = 400) -> np.ndarray:
 
     height, width = img.shape[0], img.shape[1]
     if height < size or width < size:
-        raise ValueError(f"img is too small to crop {size}x{size}: {img.shape}")
+        raise ValueError(f"img too small to crop {size}x{size}: {img.shape}")
 
     y0 = (height - size) // 2
     x0 = (width - size) // 2
-    crop = img[y0 : y0 + size, x0 : x0 + size]
+    crop = img[y0: y0 + size, x0: x0 + size]
     return crop[:, :, 0:1]
 
 
@@ -50,12 +50,22 @@ def add_axis_scale(img: np.ndarray, tick_step: int = 50) -> np.ndarray:
     height, width = base_bgr.shape[:2]
     left_margin = 60
     bottom_margin = 40
-    canvas = np.full((height + bottom_margin, width + left_margin, 3), 255, dtype=np.uint8)
-    canvas[0:height, left_margin : left_margin + width] = base_bgr
+    canvas = np.full(
+        (height + bottom_margin, width + left_margin, 3),
+        255,
+        dtype=np.uint8,
+    )
+    canvas[0:height, left_margin: left_margin + width] = base_bgr
 
     axis_color = (0, 0, 0)
     cv2.line(canvas, (left_margin, 0), (left_margin, height), axis_color, 1)
-    cv2.line(canvas, (left_margin, height), (left_margin + width, height), axis_color, 1)
+    cv2.line(
+        canvas,
+        (left_margin, height),
+        (left_margin + width, height),
+        axis_color,
+        1,
+    )
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     font_scale = 0.4
@@ -78,7 +88,13 @@ def add_axis_scale(img: np.ndarray, tick_step: int = 50) -> np.ndarray:
 
     for y in range(0, height + 1, step):
         py = y
-        cv2.line(canvas, (left_margin - 5, py), (left_margin, py), axis_color, 1)
+        cv2.line(
+            canvas,
+            (left_margin - 5, py),
+            (left_margin, py),
+            axis_color,
+            1,
+        )
         cv2.putText(
             canvas,
             str(y),
@@ -123,7 +139,9 @@ def display_with_scale(img: np.ndarray) -> None:
         import matplotlib.pyplot as plt
     except ModuleNotFoundError:
         try:
-            if not (os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY")):
+            if not (
+                os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY")
+            ):
                 return
             canvas = add_axis_scale(img)
             cv2.imshow("zoom", canvas)
@@ -138,8 +156,13 @@ def display_with_scale(img: np.ndarray) -> None:
         plt.imshow(shown, cmap="gray")
     else:
         plt.imshow(shown)
+    plt.xticks(range(0, shown.shape[1] + 1, 50))
+    plt.yticks(range(0, shown.shape[0] + 1, 50))
     plt.xlabel("X (pixels)")
     plt.ylabel("Y (pixels)")
+    if "agg" in plt.get_backend().lower():
+        plt.close()
+        return
     plt.show()
 
 
@@ -149,13 +172,12 @@ def main() -> None:
     """
     try:
         img_path = os.path.join(os.path.dirname(__file__), "animal.jpeg")
-        #print(f" img path : {img_path}")
         img = ft_load(img_path)
         if img is None:
             return
 
         print(img)
-        zoomed = zoom_image(img, 420)
+        zoomed = zoom_image(img, 400)
         print(f"New shape after slicing: {zoomed.shape}")
         print(zoomed)
         display_with_scale(zoomed)

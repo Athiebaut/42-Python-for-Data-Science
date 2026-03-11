@@ -1,5 +1,8 @@
+import os
+
 import cv2
 import numpy as np
+
 
 def ft_load(path: str) -> np.ndarray | None:
     """
@@ -11,6 +14,9 @@ def ft_load(path: str) -> np.ndarray | None:
     try:
         if not isinstance(path, str):
             raise TypeError("path must be a string")
+
+        if not os.path.isfile(path):
+            raise ValueError(f"unable to load image: {path}")
 
         image = cv2.imread(path)
         if image is None:

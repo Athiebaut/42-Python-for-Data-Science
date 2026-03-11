@@ -20,6 +20,8 @@ def _display_image(array: np.ndarray, title: str) -> None:
     try:
         import matplotlib.pyplot as plt
 
+        if "agg" in plt.get_backend().lower():
+            return
         plt.figure(title)
         plt.imshow(array)
         plt.title(title)
@@ -98,9 +100,11 @@ def ft_grey(array: np.ndarray) -> np.ndarray | None:
     """
     try:
         _validate_image(array)
-        grey = np.sum(array / 3, axis=2, keepdims=True)
-        grey = np.clip(grey, 0, 255).astype(np.uint8)
-        result = np.repeat(grey, 3, axis=2)
+        result = array.copy()
+        grey = np.dot(result[:, :, :3], [1 / 3, 1 / 3, 1 / 3]).astype(np.uint8)
+        result[:, :, 0] = grey
+        result[:, :, 1] = grey
+        result[:, :, 2] = grey
         _display_image(result, "Grey")
         return result
     except Exception as exc:
@@ -127,6 +131,8 @@ def main() -> None:
         try:
             import matplotlib.pyplot as plt
 
+            if "agg" in plt.get_backend().lower():
+                return
             plt.show()
         except Exception:
             return

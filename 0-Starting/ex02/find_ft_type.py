@@ -1,25 +1,17 @@
-
 def all_thing_is_obj(object: any) -> int:
-
-    t_object = type(object)
+    """Print the object type using the format expected by the subject."""
+    object_type = type(object)
 
     if isinstance(object, list):
-        print(f"List : {t_object}")
+        print(f"List : {object_type}")
     elif isinstance(object, tuple):
-        print(f"Tuple : {t_object}")
+        print(f"Tuple : {object_type}")
     elif isinstance(object, set):
-        print(f"Set : {t_object}")
+        print(f"Set : {object_type}")
     elif isinstance(object, dict):
-        print(f"Dict : {t_object}")
+        print(f"Dict : {object_type}")
     elif isinstance(object, str):
-        if (object == "Brian"):
-            print(f"Brian is in the kitchen : {t_object}")
-        elif (object == "Toto"):
-            print(f"Toto is in the kitchen : {t_object}")
-        else:
-            print(f"Str : {t_object}")
-    elif isinstance(object, int):
-        print("Type not found")
+        print(f"{object} is in the kitchen : {object_type}")
     else:
         print("Type not found")
     return 42

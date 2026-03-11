@@ -37,6 +37,8 @@ def ft_load(path: str) -> np.ndarray | None:
         ext = os.path.splitext(real_path)[1].lower()
         if ext not in {".jpg", ".jpeg"}:
             raise ValueError("only .jpg and .jpeg files are supported")
+        if not os.path.isfile(real_path):
+            raise ValueError(f"unable to load image: {path}")
 
         image = cv2.imread(real_path)
         if image is None:

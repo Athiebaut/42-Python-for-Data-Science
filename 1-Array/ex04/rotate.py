@@ -1,7 +1,5 @@
 import os
-
 import numpy as np
-
 from load_image import ft_load
 
 
@@ -39,7 +37,7 @@ def crop_square_channel(image: np.ndarray, size: int = 400) -> np.ndarray:
 
     y_start = (height - size) // 2
     x_start = (width - size) // 2
-    return image[y_start : y_start + size, x_start : x_start + size, 0:1]
+    return image[y_start: y_start + size, x_start: x_start + size, 0:1]
 
 
 def manual_transpose(image: np.ndarray) -> np.ndarray:
@@ -82,6 +80,9 @@ def display_images(cropped: np.ndarray, transposed: np.ndarray) -> None:
         axes[1].set_xlabel("X")
         axes[1].set_ylabel("Y")
         plt.tight_layout()
+        if "agg" in plt.get_backend().lower():
+            plt.close(figure)
+            return
         plt.show()
     except Exception:
         return

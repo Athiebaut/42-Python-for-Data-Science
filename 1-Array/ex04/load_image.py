@@ -1,5 +1,4 @@
 import os
-
 import cv2
 import numpy as np
 
@@ -11,11 +10,11 @@ def ft_load(path: str) -> np.ndarray | None:
     try:
         if not isinstance(path, str):
             raise TypeError("path must be a string")
-
         ext = os.path.splitext(path)[1].lower()
         if ext not in {".jpg", ".jpeg"}:
             raise ValueError("only .jpg and .jpeg files are supported")
-
+        if not os.path.isfile(path):
+            raise ValueError(f"unable to load image: {path}")
         image = cv2.imread(path)
         if image is None:
             raise ValueError(f"unable to load image: {path}")
@@ -30,7 +29,13 @@ def main() -> None:
     Basic manual test entrypoint for ft_load.
     """
     try:
-        image = ft_load("animal.jpeg")
+        image_path = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "ex03",
+            "animal.jpeg",
+        )
+        image = ft_load(image_path)
         if image is None:
             return
         print(f"The shape of image is: {image.shape}")

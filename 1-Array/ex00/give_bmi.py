@@ -1,3 +1,7 @@
+def is_number(value) -> bool:
+    """Return True when value is an int or float, but not a bool."""
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
 
 def give_bmi(h: list[int | float], w: list[int | float]) -> list[int | float]:
     """
@@ -15,11 +19,13 @@ def give_bmi(h: list[int | float], w: list[int | float]) -> list[int | float]:
                            Returns an empty list if an error occurs.
     """
     try:
+        if not isinstance(h, list) or not isinstance(w, list):
+            raise TypeError("h and w must be lists")
         if len(h) != len(w):
             raise ValueError("Lists of hs and ws must have the same lengh")
         values = []
         for h, w in zip(h, w):
-            if not isinstance(h, (int, float)) or not isinstance(w, (int, float)):
+            if not is_number(h) or not is_number(w):
                 raise ValueError("h's or w's must be int or float")
             if h <= 0 or w <= 0:
                 raise ValueError("h's or w's value must be at least positive")
@@ -48,11 +54,13 @@ def apply_limit(bmi: list[int | float], limit: int) -> list[bool]:
                     Returns an empty list if an error occurs.
     """
     try:
-        if not isinstance(limit, (int, float)):
-            raise ValueError("Limit and BMI must be int or float")
+        if not isinstance(bmi, list):
+            raise TypeError("BMI must be a list")
+        if not isinstance(limit, int) or isinstance(limit, bool):
+            raise TypeError("Limit must be an integer")
         is_limit = []
         for elm in bmi:
-            if not isinstance(elm, (int, float)):
+            if not is_number(elm):
                 raise ValueError("Elements of BMI must be int or float")
             is_limit.append(elm > limit)
         return is_limit
